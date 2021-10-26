@@ -14,6 +14,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets REQUIRED)
 find_package(cpprestsdk REQUIRED) 
+find_package(OpenSSL REQUIRED) 
 
 include_directories(include)
 
@@ -27,10 +28,14 @@ set(PROJECT_SOURCES
         include/widget.h
         src/widget.cpp
         src/widget.ui
+        include/TokenManager.hpp
+        src/TokenManager.cpp
         include/SpotifyClient.hpp
         src/SpotifyClient.cpp
         include/spotify.hpp
         src/spotify.cpp
+        include/utils.hpp
+        src/utils.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

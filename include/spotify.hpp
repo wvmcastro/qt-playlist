@@ -9,11 +9,18 @@ namespace spotify
 
 inline constexpr char api_url[] = "https://api.spotify.com";
 inline constexpr char search_endpoint[] = "/v1/search";
+inline constexpr char token_api_url[] = "https://accounts.spotify.com";
+inline constexpr char token_endpoint[] = "/api/token";
 
 rest::http_request
 makeTrackRequest(const std::string& track_name, 
                  const std::string& token, 
                  int limit=5);
+
+rest::http_request
+makeClientAuthRequest(const std::string& client_id,
+                      const std::string& client_secret);
+
 
 } // end spotify
 

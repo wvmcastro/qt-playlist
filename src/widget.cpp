@@ -3,7 +3,9 @@
 
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
-    , ui{new Ui::Widget}, _client{"token"}
+    , ui{new Ui::Widget}, 
+    _client{"16d2e555452f4761a4d2ca8dc775675e", 
+            "779589eddb4f429d9a9e58fed48d3d3d"}
 {
     ui->setupUi(this);
     ui->search_lineEdit->setPlaceholderText(QString("música: "));

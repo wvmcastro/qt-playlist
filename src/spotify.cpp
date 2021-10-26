@@ -1,5 +1,6 @@
 #include "spotify.hpp"
 #include <iostream>
+#include "utils.hpp"
 
 namespace spotify
 {
@@ -23,6 +24,30 @@ makeTrackRequest(const std::string& track_name,
     request.set_request_uri(uri.to_uri());
     request.headers().add("Authorization", "Bearer " + token);
     
+    return request;
+}
+
+rest::http_request
+makeClientAuthRequest(const std::string& client_id,
+                      const std::string& client_secret)
+{
+    auto client_id_secret_base64 = 
+        utils::Base64::Encode(client_id+":"+client_secret);
+
+    std::stringstream id_secret;
+    id_secret << "Basic " << client_id_secret_base64;
+    
+    rest::http_request request(rest::methods::POST);
+    request.headers().add("Authorization", id_secret.str());
+    request.headers().add("Content-Type", "application/x-www-form-urlencoded");
+
+    rest::json::value body;
+    body["grant_type"] = rest::json::value::string("client_credentials");
+
+    request.set_body("grant_type=client_credentials");
+
+    rest::uri_builder uri(spotify::token_endpoint);
+    request.set_request_uri(uri.to_uri());
     return request;
 }
 

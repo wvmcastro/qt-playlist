@@ -2,6 +2,7 @@
 #define _SPOTIFY_CLIENT_HPP
 
 #include "spotify.hpp"
+#include "TokenManager.hpp"
 #include <string>
 
 namespace spotify
@@ -10,17 +11,24 @@ namespace spotify
 class SpotifyClient
 {
 public:
-    SpotifyClient(const std::string token): _token{token},
-        _http_client{api_url}
+    SpotifyClient(const std::string client_id, 
+                  const std::string& client_secret): 
+        _http_client{api_url}, 
+        _token_manager{client_id, client_secret}
     {
         // do nothing
     }
 
     rest::json::value searchTrack(const std::string& track_name);
 
+    std::string token()
+    {
+        return _token_manager.token();
+    }
+
 private:
-    std::string _token;
     rest::http_client _http_client;
+    TokenManager _token_manager;
 };
 
 }
