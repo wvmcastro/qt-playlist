@@ -21,7 +21,18 @@ rest::http_request
 makeClientAuthRequest(const std::string& client_id,
                       const std::string& client_secret);
 
+struct Track
+{
+    std::string name;
+    std::vector<std::string> artists;
+    std::string album;
+    std::string spotify_id;
+
+    static Track makeTrackFromJsonData(const rest::json::value& track_data);
+};
+
+
+std::ostream & operator<<(std::ostream & os, const Track& track);
 
 } // end spotify
-
 #endif

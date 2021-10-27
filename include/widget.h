@@ -2,6 +2,7 @@
 #define WIDGET_H
 
 #include <QWidget>
+#include <QListWidgetItem>
 #include "SpotifyClient.hpp"
 
 QT_BEGIN_NAMESPACE
@@ -20,7 +21,10 @@ private:
     Ui::Widget *ui;
     spotify::SpotifyClient _client;
 
+    void listTracks(const std::list<spotify::Track>& tracks);
+
 private slots:
     void on_searchButton_clicked();
+    void on_listWidget_tracksList_itemClicked(QListWidgetItem *item);
 };
 #endif // WIDGET_H

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>449</width>
+    <height>388</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -31,7 +31,14 @@
       </layout>
      </item>
      <item>
-      <widget class="QTextBrowser" name="textBrowser"/>
+      <widget class="QListWidget" name="listWidget_tracksList"/>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_playtrack">
+       <property name="text">
+        <string>Play</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>

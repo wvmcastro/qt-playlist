@@ -51,4 +51,32 @@ makeClientAuthRequest(const std::string& client_id,
     return request;
 }
 
+Track
+Track::makeTrackFromJsonData(const rest::json::value& track_data)
+{
+    Track track;
+    track.name = track_data.at("name").as_string();
+    track.album = track_data.at("album").at("name").as_string();
+    
+    auto artists_array = track_data.at("artists").as_array();
+    for(auto& artist : artists_array)
+        track.artists.push_back(artist.at("name").as_string());
+    
+    return track;
+}
+
+std::ostream & operator<<(std::ostream & os, const Track& track)
+{
+    os << "Name:\t" << track.name << std::endl;
+    os << "Album:\t" << track.album << std::endl;
+
+    os << "Artists:\t";
+    int n = track.artists.size();
+    for(int i = 0; i < n-1; i++)
+        os << track.artists[i] << ", ";
+    os << track.artists[n-1] << std::endl;
+
+    return os;
+}
+
 } // end spotify

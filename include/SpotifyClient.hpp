@@ -4,6 +4,7 @@
 #include "spotify.hpp"
 #include "TokenManager.hpp"
 #include <string>
+#include <list>
 
 namespace spotify
 {
@@ -19,7 +20,9 @@ public:
         // do nothing
     }
 
-    rest::json::value searchTrack(const std::string& track_name);
+    pplx::task<rest::http_response> searchTrack(const std::string& track_name);
+    static std::list<Track> extractTracksFromSearchResponse(
+        pplx::task<rest::http_response>& searchResponse);
 
     std::string token()
     {
@@ -29,7 +32,8 @@ public:
 private:
     rest::http_client _http_client;
     TokenManager _token_manager;
-};
+
+    };
 
 }
 

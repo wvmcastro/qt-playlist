@@ -8,7 +8,9 @@ Widget::Widget(QWidget *parent)
             "779589eddb4f429d9a9e58fed48d3d3d"}
 {
     ui->setupUi(this);
-    ui->search_lineEdit->setPlaceholderText(QString("música: "));
+    ui->search_lineEdit->setPlaceholderText(QString("music: "));
+    ui->listWidget_tracksList->setDisabled(true);
+    ui->pushButton_playtrack->setDisabled(true);
 }
 
 Widget::~Widget()
@@ -17,9 +19,31 @@ Widget::~Widget()
 }
 
 
-void Widget::on_searchButton_clicked()
+void
+Widget::on_searchButton_clicked()
 {
-   auto result = _client.searchTrack(ui->search_lineEdit->text().toStdString());
-   ui->textBrowser->setText(result.serialize().c_str());
+    auto tracks_response = _client.searchTrack(ui->search_lineEdit->text().toStdString());
+    ui->listWidget_tracksList->clear();
+    ui->pushButton_playtrack->setDisabled(true);
+    auto tracks = spotify::SpotifyClient::extractTracksFromSearchResponse(tracks_response);
+    listTracks(tracks);
+    ui->listWidget_tracksList->setEnabled(true);
+}
+
+void
+Widget::listTracks(const std::list<spotify::Track>& tracks)
+{
+    for(auto& track : tracks)
+    {
+        std::stringstream ss;
+        ss << track;
+        ui->listWidget_tracksList->addItem(QString::fromStdString(ss.str()));
+    }
+}
+
+
+void Widget::on_listWidget_tracksList_itemClicked(QListWidgetItem *item)
+{
+    ui->pushButton_playtrack->setEnabled(true);
 }
 
