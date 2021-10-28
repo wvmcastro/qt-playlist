@@ -12,8 +12,12 @@ Widget::Widget(QWidget *parent)
     ui->setupUi(this);
     _player->setAudioOutput(_audio_output);
     ui->search_lineEdit->setPlaceholderText(QString("music: "));
-    ui->listWidget_tracksList->setDisabled(true);
-    ui->pushButton_playtrack->setDisabled(true);
+
+    resetState();
+    ui->pushButton_addtoplaylist->setDisabled(true);
+    ui->pushButton_playlistplayback->setDisabled(true);
+    ui->pushButton_removefromplaylist->setDisabled(true);
+    ui->listWidget_playlist->addItem("rolinha");
 }
 
 Widget::~Widget()
@@ -67,8 +71,6 @@ Widget::resetState()
     ui->listWidget_tracksList->clear();
     ui->pushButton_playtrack->setDisabled(true);
     ui->pushButton_playtrack->setDisabled(true);
-
-    _current_item = -1;
 }
 
 void

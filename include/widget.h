@@ -2,6 +2,7 @@
 #define WIDGET_H
 
 #include <QWidget>
+#include <QBoxLayout>
 #include <QListWidgetItem>
 #include "SpotifyClient.hpp"
 #include <QMediaPlayer>
@@ -21,13 +22,11 @@ public:
 
 private:
     Ui::Widget *ui;
-    spotify::SpotifyClient _client;
 
     QMediaPlayer* _player;
     QAudioOutput* _audio_output;
 
-    // current applicatioin state stuff
-    int _current_item;
+    spotify::SpotifyClient _client;
     std::list<spotify::Track> _last_search;
 
     void listTracks(const std::list<spotify::Track>& tracks);
