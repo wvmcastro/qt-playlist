@@ -7,7 +7,8 @@ Widget::Widget(QWidget *parent)
     , ui{new Ui::Widget}, 
     _client{"16d2e555452f4761a4d2ca8dc775675e", 
             "779589eddb4f429d9a9e58fed48d3d3d"},
-    _player{new QMediaPlayer(this)}, _audio_output{new QAudioOutput(this)}
+    _player{new QMediaPlayer(this)}, _audio_output{new QAudioOutput(this)},
+    _database("/home/wellington/repositories/qt-playlist/dev-env/test.db")
 {
     ui->setupUi(this);
     _player->setAudioOutput(_audio_output);

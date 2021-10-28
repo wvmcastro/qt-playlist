@@ -7,6 +7,7 @@
 #include "SpotifyClient.hpp"
 #include <QMediaPlayer>
 #include <QAudioOutput>
+#include "Database.hpp"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Widget; }
@@ -28,6 +29,7 @@ private:
 
     spotify::SpotifyClient _client;
     std::list<spotify::Track> _last_search;
+    Database _database;
 
     void listTracks(const std::list<spotify::Track>& tracks);
 

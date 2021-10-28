@@ -15,7 +15,7 @@ find_package(Qt6 COMPONENTS Network REQUIRED)
 find_package(Qt6 COMPONENTS Multimedia REQUIRED)
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets REQUIRED)
-
+find_package(Qt6 COMPONENTS Sql REQUIRED)
 
 find_package(cpprestsdk REQUIRED) 
 
@@ -38,6 +38,8 @@ set(PROJECT_SOURCES
         src/spotify.cpp
         include/utils.hpp
         src/utils.cpp
+        include/Database.hpp
+        src/Database.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -65,7 +67,7 @@ endif()
 
 target_link_libraries(qt-playlist PRIVATE 
                                   Qt${QT_VERSION_MAJOR}::Widgets
-                                  Qt6::Network
+                                  Qt6::Sql
                                   Qt${QT_VERSION_MAJOR}::Multimedia
                                   cpprestsdk::cpprest
                                   spotify)
