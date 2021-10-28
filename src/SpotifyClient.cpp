@@ -24,7 +24,9 @@ SpotifyClient::extractTracksFromSearchResponse(
     std::list<Track> tracks_list;
     for(auto& track : tracks_array)
     {
-       tracks_list.push_back(Track::makeTrackFromJsonData(track));
+        auto&& t = Track::makeTrackFromJsonData(track);
+        if(t.name != "")
+            tracks_list.push_back(t);
     }
     return tracks_list;
 }

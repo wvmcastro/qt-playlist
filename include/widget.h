@@ -4,6 +4,8 @@
 #include <QWidget>
 #include <QListWidgetItem>
 #include "SpotifyClient.hpp"
+#include <QMediaPlayer>
+#include <QAudioOutput>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Widget; }
@@ -21,10 +23,22 @@ private:
     Ui::Widget *ui;
     spotify::SpotifyClient _client;
 
+    QMediaPlayer* _player;
+    QAudioOutput* _audio_output;
+
+    // current applicatioin state stuff
+    int _current_item;
+    std::list<spotify::Track> _last_search;
+
     void listTracks(const std::list<spotify::Track>& tracks);
 
 private slots:
     void on_searchButton_clicked();
     void on_listWidget_tracksList_itemClicked(QListWidgetItem *item);
+    void on_pushButton_playtrack_clicked();
+
+    void resetState();
+    void playFromUrl(const std::string& track_url);
+
 };
 #endif // WIDGET_H

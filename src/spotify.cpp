@@ -54,10 +54,15 @@ makeClientAuthRequest(const std::string& client_id,
 Track
 Track::makeTrackFromJsonData(const rest::json::value& track_data)
 {
+    if(track_data.at("preview_url").is_string() == false)
+        return Track{};
+
     Track track;
     track.name = track_data.at("name").as_string();
     track.album = track_data.at("album").at("name").as_string();
-    
+    track.spotify_id = track_data.at("id").as_string();
+    track.audio_url = track_data.at("preview_url").as_string();
+
     auto artists_array = track_data.at("artists").as_array();
     for(auto& artist : artists_array)
         track.artists.push_back(artist.at("name").as_string());

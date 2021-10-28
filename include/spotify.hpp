@@ -27,6 +27,7 @@ struct Track
     std::vector<std::string> artists;
     std::string album;
     std::string spotify_id;
+    std::string audio_url;
 
     static Track makeTrackFromJsonData(const rest::json::value& track_data);
 };
