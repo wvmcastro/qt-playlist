@@ -2,7 +2,7 @@
 
 Desafio técnico da TechTon para a vaga de Desenvolvedor C++ remoto. O desafio consiste em desenvolver um programa feito em Qt que possa criar e executar uma playlist do Spotify, utilizando a API pública do Spotify (https://developer.spotify.com/web-api/).
 
-### O usuário deveria ser capaz de:**
+### O usuário deveria ser capaz de:
 - [x] Criar uma nova playlist (localmente)
 - [x] Buscar uma música a partir de palavras chave
 - [x] Adicionar/excluir música da playlist
