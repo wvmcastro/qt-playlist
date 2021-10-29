@@ -21,4 +21,4 @@ As únicas dependências do projeto são:
 - Qt (utilizei o 6.2.1)
 - cpprest (https://github.com/microsoft/cpprestsdk)
 
-Além das dependências é necessário configurar o aquivo de configuração **config.h** dentro da pasta **include**. Para isso é preciso das chaves **client id** e **client secret**, obtidas no dashboard do desenvolvedor em https://developer.spotify.com/dashboard/, além das chaves, também é preciso do caminho absoluto do banco de dados SQLite, **appdatabase.sql** no disco. 
+Além das dependências é necessário configurar o aquivo de configuração **config.h** dentro da pasta **include**. Para isso é preciso das chaves **client id** e **client secret**, obtidas no dashboard do desenvolvedor em https://developer.spotify.com/dashboard/, além das chaves, também é preciso do caminho absoluto do banco de dados SQLite, **appdatabase.db** no disco. 
