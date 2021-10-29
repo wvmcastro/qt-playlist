@@ -13,16 +13,12 @@ public:
     DatabaseManager(const QString& database_path)
     {
         _database = QSqlDatabase::addDatabase("QSQLITE");
-        std::cout << "Drivers: " << _database.driverName().toStdString() 
-                  << std::endl;
         _database.setDatabaseName(database_path);
 
         if(!_database.open())
             std::cout << "Database connection failed" << "\n";
         else
             std::cout << "Database connection successful" << std::endl;
-        std::cout << _database.connectionName().toStdString() << std::endl;
-        std::cout << _database.databaseName().toStdString() << std::endl;;
     }
 
     bool addTrackToPlaylist(const std::string& track_spotify_id,
