@@ -7,19 +7,24 @@
 
 
 bool
-DatabaseManager::addTrackToPlaylist(const std::string& track_spotifyid)
+DatabaseManager::addTrackToPlaylist(const std::string& track_spotifyid,
+                                    int* track_local_id)
 {
-    int track_local_id = addTrackToDatabase(track_spotifyid);
+    int local_id = addTrackToDatabase(track_spotifyid);
 
-    if(trackInPlaylist(track_local_id) == false)
+    if(trackInPlaylist(local_id) == false)
     {
         std::stringstream query_ss;
         query_ss << "INSERT INTO " << _association_table
                  << " (id_track, id_playlist) VALUES ("
-                 << track_local_id << ", " << _default_playlist_id << ")";
+                 << local_id << ", " << _default_playlist_id << ")";
 
         QSqlQuery query;
         query.exec(query_ss.str().c_str());
+
+        if(track_local_id != nullptr)
+            *track_local_id = local_id;
+
         return true;
     }
 

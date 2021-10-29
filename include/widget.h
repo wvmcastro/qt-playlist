@@ -44,6 +44,7 @@ private slots:
 
     void resetState();
     void playFromUrl(const std::string& track_url);
+    void addTrackViewToListWidget(const spotify::Track track, QListWidget* list);
 
     void on_pushButton_addtoplaylist_clicked();
     void on_listWidget_playlist_itemClicked(QListWidgetItem *item);

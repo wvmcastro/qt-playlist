@@ -58,44 +58,19 @@ Widget::reloadPlayListView()
 }
 
 void
-Widget::on_searchButton_clicked()
-{
-    auto tracks_response = _client.searchTrack(ui->search_lineEdit->text().toStdString());
-    resetState();
-    auto tracks = spotify::SpotifyClient::extractTracksFromSearchResponse(
-                tracks_response
-                );
-    listTracks(tracks, ui->listWidget_tracksList);
-    _last_search = tracks;
-    ui->listWidget_tracksList->setEnabled(true);
-}
-
-void
 Widget::listTracks(const std::list<spotify::Track>& tracks, QListWidget* list)
 {
     for(auto& track : tracks)
-    {
-        std::stringstream ss;
-        ss << track;
-        list->addItem(QString::fromStdString(ss.str()));
-    }
+        addTrackViewToListWidget(track, list);
 }
 
-
-void Widget::on_listWidget_tracksList_itemClicked(QListWidgetItem *item)
+inline void
+Widget::addTrackViewToListWidget(const spotify::Track track, QListWidget* list)
 {
-    ui->pushButton_playtrack->setEnabled(true);
-    ui->pushButton_addtoplaylist->setEnabled(true);
+    std::stringstream ss;
+    ss << track;
+    list->addItem(QString::fromStdString(ss.str()));
 }
-
-
-void Widget::on_pushButton_playtrack_clicked()
-{
-    int selected_track_index = ui->listWidget_tracksList->currentRow();
-    auto track = std::next(_last_search.begin(), selected_track_index);
-    playFromUrl(track->audio_url);
-}
-
 
 void
 Widget::resetState()
@@ -127,8 +102,20 @@ void Widget::on_pushButton_addtoplaylist_clicked()
 {
     int selected_track_index = ui->listWidget_tracksList->currentRow();
     auto track = std::next(_last_search.begin(), selected_track_index);
-    _database.addTrackToPlaylist(track->spotify_id);
-    reloadPlayListView();
+
+    int local_id;
+    bool added = _database.addTrackToPlaylist(track->spotify_id, &local_id);
+    if(added)
+    {
+        _last_playlist_query.push_back(std::tuple(
+                                           local_id,
+                                           track->spotify_id
+                                           )
+                                       );
+
+        addTrackViewToListWidget(*track, ui->listWidget_playlist);
+
+    }
 }
 
 
@@ -156,4 +143,32 @@ void Widget::on_pushButton_removefromplaylist_clicked()
         ui->pushButton_removefromplaylist->setDisabled(true);
     }
 }
+
+void Widget::on_listWidget_tracksList_itemClicked(QListWidgetItem *item)
+{
+    ui->pushButton_playtrack->setEnabled(true);
+    ui->pushButton_addtoplaylist->setEnabled(true);
+}
+
+
+void Widget::on_pushButton_playtrack_clicked()
+{
+    int selected_track_index = ui->listWidget_tracksList->currentRow();
+    auto track = std::next(_last_search.begin(), selected_track_index);
+    playFromUrl(track->audio_url);
+}
+
+void
+Widget::on_searchButton_clicked()
+{
+    auto tracks_response = _client.searchTrack(ui->search_lineEdit->text().toStdString());
+    resetState();
+    auto tracks = spotify::SpotifyClient::extractTracksFromSearchResponse(
+                tracks_response
+                );
+    listTracks(tracks, ui->listWidget_tracksList);
+    _last_search = tracks;
+    ui->listWidget_tracksList->setEnabled(true);
+}
+
 

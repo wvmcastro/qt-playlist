@@ -25,7 +25,8 @@ public:
         std::cout << _database.databaseName().toStdString() << std::endl;;
     }
 
-    bool addTrackToPlaylist(const std::string& track_spotify_id);
+    bool addTrackToPlaylist(const std::string& track_spotify_id,
+                            int* track_local_id=nullptr);
     std::list<std::tuple<int, std::string>> getPlaylistTracks();
     void removeTrackFromPlaylist(int track_id, int playlist_id=_default_playlist_id);
 
