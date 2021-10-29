@@ -6,7 +6,7 @@ Desafio técnico da TechTon para a vaga de Desenvolvedor C++ remoto. O desafio c
 - [x] Criar uma nova playlist (localmente)
 - [x] Buscar uma música a partir de palavras chave
 - [x] Adicionar/excluir música da playlist
-- [] Executar a playlist (nesse caso tocando os samples do spotify)
+- [ ] Executar a playlist (nesse caso tocando os samples do spotify)
 
 Das funcionalidades exigidas acima, apenas a execução de músicas não está implementada. 
 
