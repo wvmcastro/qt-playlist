@@ -66,9 +66,9 @@ else()
 endif()
 
 target_link_libraries(qt-playlist PRIVATE 
-                                  Qt${QT_VERSION_MAJOR}::Widgets
-                                  Qt6::Sql
-                                  Qt${QT_VERSION_MAJOR}::Multimedia
+                                  Qt::Widgets
+                                  Qt::Sql
+                                  Qt::Multimedia
                                   cpprestsdk::cpprest
                                   spotify)
 
