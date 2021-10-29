@@ -33,11 +33,15 @@ Widget::~Widget()
 void
 Widget::loadPlaylistView()
 {
-    auto tracks_query = _database.getPlaylistTracks();
+    _last_playlist_query = _database.getPlaylistTracks();
 
     std::list<std::string> tracks_spotify_id;
-    for(auto& tuple : tracks_query)
+    for(auto& tuple : _last_playlist_query)
         tracks_spotify_id.push_back(std::get<1>(tuple));
+
+    if(tracks_spotify_id.size() == 0)
+        return;
+
     auto track_set_response = _client.getTrackSet(tracks_spotify_id);
 
     auto tracks = spotify::SpotifyClient::extractTracksFromSetResponse(
@@ -132,5 +136,24 @@ void Widget::on_listWidget_playlist_itemClicked(QListWidgetItem *item)
 {
     ui->pushButton_removefromplaylist->setEnabled(true);
     ui->pushButton_playlistplayback->setEnabled(true);
+}
+
+
+void Widget::on_pushButton_removefromplaylist_clicked()
+{
+    int track_row = ui->listWidget_playlist->currentRow();
+    auto track = std::next(_last_playlist_query.begin(), track_row);
+    int track_local_id = std::get<0>(*track);
+
+    _database.removeTrackFromPlaylist(track_local_id);
+
+    ui->listWidget_playlist->takeItem(track_row);
+    _last_playlist_query.erase(track);
+
+    if(ui->listWidget_playlist->count() == 0)
+    {
+        ui->pushButton_playlistplayback->setDisabled(true);
+        ui->pushButton_removefromplaylist->setDisabled(true);
+    }
 }
 

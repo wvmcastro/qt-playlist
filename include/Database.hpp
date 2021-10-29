@@ -27,6 +27,7 @@ public:
 
     bool addTrackToPlaylist(const std::string& track_spotify_id);
     std::list<std::tuple<int, std::string>> getPlaylistTracks();
+    void removeTrackFromPlaylist(int track_id, int playlist_id=_default_playlist_id);
 
 private:
     constexpr static int _default_playlist_id = 1;
@@ -41,8 +42,6 @@ private:
 
     std::list<std::string> getTracks(int playlist_id=_default_playlist_id);
     std::vector<std::string> getTracks(std::vector<int> tracks_ids);
-
-    void removeTrackFromPlaylist(int track_id, int playlist_id=_default_playlist_id);
 
 };
 

@@ -29,7 +29,13 @@ Database::addTrackToPlaylist(const std::string& track_spotifyid)
 void 
 Database::removeTrackFromPlaylist(int track_id, int playlist_id)
 {
+    std::stringstream query_ss;
+    query_ss << "DELETE FROM " << _association_table
+             << " WHERE id_track = " << track_id << " AND "
+             << "id_playlist = " << playlist_id;
 
+    QSqlQuery query;
+    query.exec(query_ss.str().c_str());
 }
 
 int
