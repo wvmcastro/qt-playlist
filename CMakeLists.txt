@@ -38,8 +38,8 @@ set(PROJECT_SOURCES
         src/spotify.cpp
         include/utils.hpp
         src/utils.cpp
-        include/Database.hpp
-        src/Database.cpp
+        include/DatabaseManager.hpp
+        src/DatabaseManager.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

@@ -1,4 +1,4 @@
-#include "Database.hpp"
+#include "DatabaseManager.hpp"
 
 #include <sstream>
 #include <QSqlQuery>
@@ -7,7 +7,7 @@
 
 
 bool
-Database::addTrackToPlaylist(const std::string& track_spotifyid)
+DatabaseManager::addTrackToPlaylist(const std::string& track_spotifyid)
 {
     int track_local_id = addTrackToDatabase(track_spotifyid);
 
@@ -27,7 +27,7 @@ Database::addTrackToPlaylist(const std::string& track_spotifyid)
 }
 
 void 
-Database::removeTrackFromPlaylist(int track_id, int playlist_id)
+DatabaseManager::removeTrackFromPlaylist(int track_id, int playlist_id)
 {
     std::stringstream query_ss;
     query_ss << "DELETE FROM " << _association_table
@@ -39,7 +39,7 @@ Database::removeTrackFromPlaylist(int track_id, int playlist_id)
 }
 
 int
-Database::addTrackToDatabase(const std::string& track_spotifyid)
+DatabaseManager::addTrackToDatabase(const std::string& track_spotifyid)
 {
     int track_local_id;
     if(trackInDatabase(track_spotifyid, &track_local_id))
@@ -62,7 +62,7 @@ Database::addTrackToDatabase(const std::string& track_spotifyid)
 }
 
 bool
-Database::trackInDatabase(const std::string& track_spotifyid, int* track_local_id)
+DatabaseManager::trackInDatabase(const std::string& track_spotifyid, int* track_local_id)
 {
     std::stringstream query_ss;
     query_ss << "SELECT id_track FROM " << _tracks_table
@@ -79,7 +79,7 @@ Database::trackInDatabase(const std::string& track_spotifyid, int* track_local_i
 }
 
 bool
-Database::trackInPlaylist(int track_local_id, int playlist_id)
+DatabaseManager::trackInPlaylist(int track_local_id, int playlist_id)
 {
     std::stringstream query_ss;
     query_ss << "SELECT id_track, id_playlist FROM "
@@ -93,7 +93,7 @@ Database::trackInPlaylist(int track_local_id, int playlist_id)
 }
 
 std::list<std::tuple<int, std::string>>
-Database::getPlaylistTracks()
+DatabaseManager::getPlaylistTracks()
 {
     std::stringstream query_ss;
     query_ss << "SELECT id_track FROM "
@@ -116,7 +116,7 @@ Database::getPlaylistTracks()
 }
 
 std::string
-Database::getTrackSpotifyId(int track_local_id)
+DatabaseManager::getTrackSpotifyId(int track_local_id)
 {
     std::stringstream query_ss;
     query_ss << "SELECT track_spotify_id FROM "

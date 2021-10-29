@@ -7,10 +7,10 @@
 #include <QSql>
 #include <QSqlDatabase>
 
-class Database
+class DatabaseManager
 {
 public:
-    Database(const QString& database_path)
+    DatabaseManager(const QString& database_path)
     {
         _database = QSqlDatabase::addDatabase("QSQLITE");
         std::cout << "Drivers: " << _database.driverName().toStdString() 
