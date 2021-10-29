@@ -15,10 +15,10 @@ class TokenManager
 public:
     TokenManager(const std::string& client_id, const std::string& client_secret): 
     _client_id{client_id}, _client_secret{client_secret},
-    _http_client{token_api_url},
-    _th{&TokenManager::tokenFlow, this}
+    _http_client{token_api_url}
     {
-        // do nothing
+        int first_expiration = requestAndSetToken();
+        _th = std::thread{&TokenManager::tokenFlow, this, first_expiration};
     }
 
     ~TokenManager()
@@ -28,6 +28,7 @@ public:
     }
     
     std::string token();
+
 private:
     std::thread _th;
     mutable std::shared_mutex _token_mutex;
@@ -39,8 +40,9 @@ private:
     std::string _client_secret;
     rest::http_client _http_client;
 
-    void tokenFlow(void);
+    void tokenFlow(int);
     rest::json::value requestCode(void);
+    int requestAndSetToken();
     void setToken(const std::string& token);
 };
 

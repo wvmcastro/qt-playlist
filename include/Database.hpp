@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include <list>
+#include <tuple>
 #include <QSql>
 #include <QSqlDatabase>
 
@@ -12,7 +13,8 @@ public:
     Database(const QString& database_path)
     {
         _database = QSqlDatabase::addDatabase("QSQLITE");
-        std::cout << "Drivers: " << _database.driverName().toStdString() << std::endl;
+        std::cout << "Drivers: " << _database.driverName().toStdString() 
+                  << std::endl;
         _database.setDatabaseName(database_path);
 
         if(!_database.open())
@@ -23,14 +25,25 @@ public:
         std::cout << _database.databaseName().toStdString() << std::endl;;
     }
 
+    bool addTrackToPlaylist(const std::string& track_spotify_id);
+    std::list<std::tuple<int, std::string>> getPlaylistTracks();
+
 private:
     constexpr static int _default_playlist_id = 1;
+    constexpr static char _tracks_table[] = "tracks_table";
+    constexpr static char _association_table[] = "track_playlist_association_table";
+
     QSqlDatabase _database;
+    int addTrackToDatabase(const std::string& track_spotifyid);
+    bool trackInDatabase(const std::string& track_spotifyid, int* track_local_id=nullptr);
+    bool trackInPlaylist(int track_local_id, int playlist_id=_default_playlist_id);
+    std::string getTrackSpotifyId(int track_local_id);
+
     std::list<std::string> getTracks(int playlist_id=_default_playlist_id);
     std::vector<std::string> getTracks(std::vector<int> tracks_ids);
-    std::vector<int> getTracksIdsFromPlaylist(int playlist_id=_default_playlist_id);
-    void addTrackToPlaylist(int track_id, int playlist_id=_default_playlist_id);
+
     void removeTrackFromPlaylist(int track_id, int playlist_id=_default_playlist_id);
+
 };
 
 #endif // DATABASE_H

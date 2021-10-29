@@ -31,7 +31,9 @@ private:
     std::list<spotify::Track> _last_search;
     Database _database;
 
-    void listTracks(const std::list<spotify::Track>& tracks);
+    void listTracks(const std::list<spotify::Track>& tracks, QListWidget* list);
+    void loadPlaylistView();
+    void reloadPlayListView();
 
 private slots:
     void on_searchButton_clicked();
@@ -41,5 +43,7 @@ private slots:
     void resetState();
     void playFromUrl(const std::string& track_url);
 
+    void on_pushButton_addtoplaylist_clicked();
+    void on_listWidget_playlist_itemClicked(QListWidgetItem *item);
 };
 #endif // WIDGET_H

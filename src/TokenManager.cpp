@@ -9,20 +9,27 @@ namespace spotify
 // implements the flow in:
 // https://developer.spotify.com/documentation/general/guides/authorization/client-credentials/
 void
-TokenManager::tokenFlow(void)
+TokenManager::tokenFlow(int first_expiration)
 {
     std::unique_lock<std::mutex> lk{_exit_cv_mutex};
+    int expires_in = first_expiration;
     while(true)
     {
-        auto response =  requestCode();
-        setToken(response["access_token"].as_string());
-        
-        int expires_in = response["expires_in"].as_integer();
         std::chrono::duration<int, std::ratio<1,1>> timeout{expires_in};
-
         if(_exit_cv.wait_for(lk, timeout) != std::cv_status::timeout)
             break;
+
+        expires_in = requestAndSetToken();
     }
+}
+
+int
+TokenManager::requestAndSetToken()
+{
+    auto response =  requestCode();
+    setToken(response["access_token"].as_string());
+
+    return response["expires_in"].as_integer();
 }
 
 rest::json::value

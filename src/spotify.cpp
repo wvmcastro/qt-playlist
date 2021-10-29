@@ -6,13 +6,11 @@ namespace spotify
 {
 
 rest::http_request
-makeTrackRequest(const std::string& track_name, 
-                 const std::string& token,
-                 int limit)
+makeTrackSearchRequest(const std::string& track_name,
+                       const std::string& token,
+                       int limit)
 {
-    constexpr char market[] = "BR";
     constexpr char type[] = "track";
-    constexpr char content_type[] = "application/json";
 
     rest::uri_builder uri(spotify::search_endpoint);
     uri.append_query("q", track_name);
@@ -23,7 +21,33 @@ makeTrackRequest(const std::string& track_name,
     rest::http_request request(rest::methods::GET);
     request.set_request_uri(uri.to_uri());
     request.headers().add("Authorization", "Bearer " + token);
-    
+
+    return request;
+}
+
+rest::http_request
+makeTrackSetRequest(const std::list<std::string>& tracks_id,
+                    const std::string& token)
+{
+    std::stringstream ss;
+    auto last = --tracks_id.end();
+    for(auto it = tracks_id.begin(); it != last; it++)
+    {
+        ss << (*it) << ",";
+    }
+    ss << (*last);
+
+    rest::uri_builder uri(spotify::tracks_endpoint);
+    uri.append_query("market", market);
+    uri.append_query("ids", ss.str());
+
+    rest::http_request request(rest::methods::GET);
+    request.set_request_uri(uri.to_uri());
+
+    request.headers().add("Authorization", "Bearer " + token);
+    constexpr char content_type[] = "application/json";
+    request.headers().add("Content-Type", content_type);
+
     return request;
 }
 
@@ -54,9 +78,6 @@ makeClientAuthRequest(const std::string& client_id,
 Track
 Track::makeTrackFromJsonData(const rest::json::value& track_data)
 {
-    if(track_data.at("preview_url").is_string() == false)
-        return Track{};
-
     Track track;
     track.name = track_data.at("name").as_string();
     track.album = track_data.at("album").at("name").as_string();
