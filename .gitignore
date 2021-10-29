@@ -61,3 +61,5 @@ build/
 *.swp
 
 dev-env/
+
+include/config.h
