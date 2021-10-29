@@ -40,6 +40,7 @@ set(PROJECT_SOURCES
         src/utils.cpp
         include/DatabaseManager.hpp
         src/DatabaseManager.cpp
+        include/config.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

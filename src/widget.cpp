@@ -2,14 +2,14 @@
 #include "ui_widget.h"
 #include <iterator>
 #include <tuple>
+#include "config.h"
 
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
     , ui{new Ui::Widget}, 
-    _client{"16d2e555452f4761a4d2ca8dc775675e", 
-            "779589eddb4f429d9a9e58fed48d3d3d"},
+    _client{APPID, APPSECRET},
     _player{new QMediaPlayer(this)}, _audio_output{new QAudioOutput(this)},
-    _database("/home/wellington/repositories/qt-playlist/dev-env/test.db")
+    _database(DATABASEPATH)
 {
     ui->setupUi(this);
     _player->setAudioOutput(_audio_output);
